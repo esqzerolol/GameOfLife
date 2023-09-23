@@ -4,7 +4,7 @@ using namespace std;
 typedef vector<vector<bool>> GridType;
 typedef pair<int,int> PositionType;
 
-static int FPS = 24;
+static int FPS = 60;
 static int ScreenWidth = 480;
 static int ScreenHeight = 480;
 static int CellSize = 24;
@@ -145,8 +145,6 @@ struct Grid {
         // . | . | .
         if (((posX+1) >= GridSize) || ((posY+1) >= GridSize));
         else if (buffer.at(posX+1).at(posY+1) == true) AliveNeighbours++;
-
-        cout << "Possui vizinhos: " << AliveNeighbours << "\n";
         return AliveNeighbours;
     }
 
@@ -192,11 +190,6 @@ static void InitGame(void){
         if (IsKeyPressed(KEY_SPACE)){
             GameIsPaused = !GameIsPaused;
         }
-
-        if (IsKeyPressed(KEY_KP_7)){
-            GridPadrao.Exec();
-        }
-
     
         PositionType MousePos = RetornarPosMouse();
         if ((GameIsPaused) && (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
@@ -204,12 +197,16 @@ static void InitGame(void){
         }
         // UPDATE GAME LOGIC
 
+        if (IsKeyPressed(KEY_ENTER)){
+            GridPadrao.Exec();
+        }
+
         // RENDER
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawGrid();
         if (GameIsPaused) DrawText("Game Is Paused", 90, 10, 20, BLACK);
-
+        else GridPadrao.Exec();
         GridPadrao.GridPrint();
 
         DrawFPS(10, 10);
