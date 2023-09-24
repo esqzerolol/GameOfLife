@@ -184,11 +184,16 @@ static void InitGame(void){
     Grid GridPadrao;
     SetTargetFPS(FPS);
     bool GameIsPaused = false;
+    bool UseGrid = false;
     while (!WindowShouldClose()){
         // PROCESS EVENTS
         
         if (IsKeyPressed(KEY_SPACE)){
             GameIsPaused = !GameIsPaused;
+        }
+
+        if (IsKeyPressed(KEY_D)){
+            UseGrid = !UseGrid;
         }
     
         PositionType MousePos = RetornarPosMouse();
@@ -203,8 +208,8 @@ static void InitGame(void){
 
         // RENDER
         BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawGrid();
+        ClearBackground(LIGHTGRAY);
+        if (UseGrid) DrawGrid();
         if (GameIsPaused) DrawText("Game Is Paused", 90, 10, 20, BLACK);
         else GridPadrao.Exec();
         GridPadrao.GridPrint();
@@ -260,8 +265,8 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 
 static void DrawGrid(){
     for (int i = 0; i < GridSize; i++){
-        DrawRectangle((i*CellSize), 0, 1, ScreenHeight, BLACK);
-        DrawRectangle(0, (i*CellSize), ScreenWidth, 1, BLACK);
+        DrawRectangle((i*CellSize), 0, 1, ScreenHeight, RAYWHITE);
+        DrawRectangle(0, (i*CellSize), ScreenWidth, 1, RAYWHITE);
     }
 }
 
